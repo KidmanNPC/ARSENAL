@@ -7,7 +7,7 @@ use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('store');
+    return redirect()->route('store.index');
 });
 
 // Halaman utama (Store)
