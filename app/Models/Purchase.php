@@ -15,7 +15,9 @@ class Purchase extends Model
         'purchased_at',
     ];
 
-    protected $dates = ['purchased_at'];
+    protected $casts = [
+        'purchased_at' => 'datetime',
+    ];
 
     public function game()
     {

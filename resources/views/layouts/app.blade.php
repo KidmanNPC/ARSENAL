@@ -1,47 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsenal Store</title>
-    @vite('resources/css/app.css')
-    <script src="//unpkg.com/alpinejs" defer></script>
-</head>
-<body class="bg-[#0f0f17] text-gray-200 min-h-screen flex flex-col">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- 🔹 Navbar --}}
-    <nav class="bg-[#1a1a24] text-gray-100 px-8 py-4 flex justify-between items-center shadow-md">
-        <a href="{{ route('store.index') }}" class="font-bold text-xl text-yellow-400 hover:text-yellow-300 transition">
-            🎮 Arsenal Store
-        </a>
+        <title>{{ config('app.name', 'Arsenal Store') }}</title>
 
-        <div class="flex gap-6 items-center text-sm">
-            <a href="{{ route('store.index') }}" class="hover:text-yellow-300 transition">🏪 Store</a>
-            <a href="{{ route('cart.index') }}" class="hover:text-yellow-400 transition">🛒 Cart</a>
-            <a href="{{ route('checkout.index') }}" class="hover:text-yellow-400 transition">💳 Checkout</a>
-            <a href="{{ route('purchases.index') }}" class="hover:text-yellow-400 transition">📚 Library</a>
-        </div>
-    </nav>
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    {{-- 🔹 Main Content --}}
-    <main class="flex-1 p-8">
-        @if(session('success'))
-            <div
-                x-data="{ show: true }"
-                x-show="show"
-                x-init="setTimeout(() => show = false, 3000)"
-                class="bg-green-600 text-white px-4 py-3 rounded mb-6 shadow">
-                {{ session('success') }}
-            </div>
-        @endif
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        @yield('content')
-    </main>
+        <script src="//unpkg.com/alpinejs" defer></script>
+    </head>
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-    {{-- 🔹 Footer --}}
-    <footer class="bg-[#1a1a24] text-center text-gray-500 text-sm py-4 mt-auto">
-        <p>© {{ date('Y') }} Arsenal Store — Inspired by Steam</p>
-    </footer>
+        @include('layouts.navigation')
 
-</body>
+        @isset($header)
+            <header class="bg-white dark:bg-gray-800 shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
+
+        <main class="flex-1 p-6">
+            {{-- 1. Pesan Notifikasi (Success/Error) untuk Cart --}}
+            @if(session('success'))
+                <div class="max-w-7xl mx-auto mb-6 bg-green-500 text-white px-4 py-3 rounded shadow">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="max-w-7xl mx-auto mb-6 bg-red-500 text-white px-4 py-3 rounded shadow">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- 2. Hybrid Logic: Cek apakah pakai Slot (Breeze) atau Yield (Toko) --}}
+            @if (isset($slot) && $slot->isNotEmpty())
+                {{-- Jika variabel $slot ada isinya (Halaman Dashboard/Profile) --}}
+                {{ $slot }}
+            @else
+                {{-- Jika tidak, cari section 'content' (Halaman Store/Cart/Checkout) --}}
+                @yield('content')
+            @endif
+        </main>
+
+        <footer class="bg-white dark:bg-gray-800 text-center text-gray-500 text-sm py-4 mt-auto border-t border-gray-200 dark:border-gray-700">
+            <p>© {{ date('Y') }} Arsenal Store — Inspired by Steam</p>
+        </footer>
+    </body>
 </html>

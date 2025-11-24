@@ -37,6 +37,7 @@
                 </span>
 
                 @if($isAdded)
+                    {{-- KONDISI 1: Game sudah ada di Cart --}}
                     <button
                         class="bg-green-500 text-white px-4 py-1 rounded-lg font-semibold transition cursor-not-allowed opacity-70"
                         disabled
@@ -44,14 +45,26 @@
                         Added
                     </button>
                 @else
-                    <form action="{{ route('cart.add', $game->id) }}" method="POST">
-                        @csrf
-                        <button
-                            class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition"
-                        >
+                    {{-- KONDISI 2: Game belum ada di Cart --}}
+                    
+                    @auth
+                        {{-- A. JIKA SUDAH LOGIN: Tampilkan tombol Add (Berfungsi) --}}
+                        <form action="{{ route('cart.add', $game->id) }}" method="POST">
+                            @csrf
+                            <button
+                                class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition"
+                            >
+                                + Add
+                            </button>
+                        </form>
+                    @else
+                        {{-- B. JIKA BELUM LOGIN (TAMU): Tampilkan tombol ke halaman Login --}}
+                        <a href="{{ route('login') }}" 
+                            class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition inline-block text-center">
                             + Add
-                        </button>
-                    </form>
+                        </a>
+                    @endauth
+                    
                 @endif
             </div>
         </div>

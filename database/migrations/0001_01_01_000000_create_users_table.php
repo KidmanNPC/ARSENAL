@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            
+            // TAMBAHAN: Kolom untuk membedakan Admin & User
+            // default('user') artinya kalau daftar biasa, otomatis jadi user biasa.
+            $table->string('usertype')->default('user'); 
+            
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
