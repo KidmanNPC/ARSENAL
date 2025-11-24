@@ -19,8 +19,14 @@
     </button>
 </form>
 
+@php
+    $cart = session()->get('cart', []);
+@endphp
+
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {{-- Database games --}}
     @foreach($games as $game)
+        @php $isAdded = isset($cart[$game->id]); @endphp
         <div class="bg-[#1b1b22] hover:bg-[#22222b] transition rounded-xl shadow-lg p-4 border border-gray-800">
             <img src="{{ $game->image }}" alt="{{ $game->title }}" class="w-full h-48 object-cover rounded">
             <h3 class="text-xl font-bold mt-4 text-white">{{ $game->title }}</h3>
@@ -29,59 +35,29 @@
                 <span class="text-yellow-400 font-semibold text-lg">
                     Rp {{ number_format($game->price, 0, ',', '.') }}
                 </span>
-                <form action="{{ route('cart.add', $game->id) }}" method="POST">
-                    @csrf
+
+                @if($isAdded)
                     <button
-                        class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition"
+                        class="bg-green-500 text-white px-4 py-1 rounded-lg font-semibold transition cursor-not-allowed opacity-70"
+                        disabled
                     >
-                        + Add
+                        Added
                     </button>
-                </form>
+                @else
+                    <form action="{{ route('cart.add', $game->id) }}" method="POST">
+                        @csrf
+                        <button
+                            class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition"
+                        >
+                            + Add
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     @endforeach
 
-    {{-- Dummy games sementara (kalau database masih isi 3) --}}
-    @php
-        $dummyGames = [
-            [
-                'title' => 'Ghost of Tsushima',
-                'description' => 'Rasakan perjalanan epik samurai dalam dunia terbuka yang menawan.',
-                'price' => 720000,
-                'image' => 'https://cdn.cloudflare.steamstatic.com/steam/apps/2215430/header.jpg',
-            ],
-            [
-                'title' => 'Horizon Forbidden West',
-                'description' => 'Petualangan futuristik di dunia pasca-apokaliptik yang penuh robot.',
-                'price' => 690000,
-                'image' => 'https://cdn.cloudflare.steamstatic.com/steam/apps/2051610/header.jpg',
-            ],
-            [
-                'title' => 'God of War Ragnarök',
-                'description' => 'Kratos dan Atreus kembali dalam kisah epik mitologi Nordik.',
-                'price' => 799000,
-                'image' => 'https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg',
-            ],
-        ];
-    @endphp
+    {{-- BAGIAN DUMMY GAMES YANG ERROR SUDAH DIHAPUS --}}
 
-    @foreach($dummyGames as $game)
-        <div class="bg-[#1b1b22] hover:bg-[#22222b] transition rounded-xl shadow-lg p-4 border border-gray-800">
-            <img src="{{ $game['image'] }}" alt="{{ $game['title'] }}" class="w-full h-48 object-cover rounded">
-            <h3 class="text-xl font-bold mt-4 text-white">{{ $game['title'] }}</h3>
-            <p class="text-gray-400 text-sm mt-2">{{ Str::limit($game['description'], 100) }}</p>
-            <div class="mt-4 flex justify-between items-center">
-                <span class="text-yellow-400 font-semibold text-lg">
-                    Rp {{ number_format($game['price'], 0, ',', '.') }}
-                </span>
-                <button
-                    class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-1 rounded-lg font-semibold transition cursor-not-allowed opacity-70"
-                    disabled
-                >
-                    Added
-                </button>
-            </div>
-        </div>
-    @endforeach
 </div>
 @endsection

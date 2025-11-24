@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+// Hapus Auth dan DB karena sudah pindah ke base Controller
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
 use App\Models\Purchase;
 use App\Models\Game;
 
 class CheckoutController extends Controller
 {
-    // Show checkout page (reads session cart)
+    // ... (fungsi index() tetap sama) ...
     public function index()
     {
         $cart = session()->get('cart', []);
@@ -35,11 +36,8 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Keranjang kamu kosong.');
         }
 
-        // determine user id: prefer logged in user, else find test user created by seeder
-        $userId = Auth::id();
-        if (!$userId) {
-            $userId = DB::table('users')->where('email', 'test@example.com')->value('id');
-        }
+        // Gunakan fungsi yang sudah dibuat di base controller
+        $userId = $this->getActiveUserId();
 
         foreach ($cart as $gameId => $item) {
             // verify game exists

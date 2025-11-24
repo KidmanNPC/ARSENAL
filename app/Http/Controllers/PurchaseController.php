@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+// Hapus Auth dan DB karena sudah pindah ke base Controller
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
 use App\Models\Purchase;
 
 class PurchaseController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id() ?? DB::table('users')->where('email','test@example.com')->value('id');
+        // Gunakan fungsi yang sudah dibuat di base controller
+        $userId = $this->getActiveUserId();
 
         $purchases = Purchase::with('game')->where('user_id', $userId)->orderBy('purchased_at','desc')->get();
 

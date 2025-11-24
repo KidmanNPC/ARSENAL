@@ -18,16 +18,17 @@ class CartController extends Controller
         $game = Game::findOrFail($id);
         $cart = session()->get('cart', []);
 
+        // Cek kalau game sudah ada di cart
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-        } else {
-            $cart[$id] = [
-                'title' => $game->title,
-                'price' => $game->price,
-                'image' => $game->image,
-                'quantity' => 1,
-            ];
+            return redirect()->back()->with('info', $game->title . ' sudah ada di cart!');
         }
+
+        $cart[$id] = [
+            'title' => $game->title,
+            'price' => $game->price,
+            'image' => $game->image,
+            'quantity' => 1,
+        ];
 
         session()->put('cart', $cart);
 

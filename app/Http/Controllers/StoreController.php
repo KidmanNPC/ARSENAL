@@ -14,6 +14,8 @@ class StoreController extends Controller
             return $query->where('title', 'like', "%{$search}%");
         })->get();
 
-        return view('store.index', compact('games', 'search'));
+        $cart = session()->get('cart', []); // Ambil cart dari session
+
+        return view('store.index', compact('games', 'search', 'cart'));
     }
 }
