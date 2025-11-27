@@ -2,13 +2,11 @@
 
 **Arsenal Game Store** adalah aplikasi web e-commerce sederhana untuk distribusi game digital. Proyek ini dibangun menggunakan framework **Laravel** dengan tujuan mensimulasikan platform toko game seperti Steam atau Epic Games Store.
 
-Aplikasi ini membedakan hak akses antara **Admin** (pemilik toko) dan **User** (pelanggan), serta dilengkapi fitur keranjang belanja dan perpustakaan game pribadi.
+Aplikasi ini membedakan hak akses antara **Admin** (owner) dan **User** (customer), serta dilengkapi fitur keranjang belanja dan perpustakaan game pribadi.
 
 ---
 
 ## 👥 Anggota Kelompok
-
-Berikut adalah kontributor yang menyusun proyek ini:
 
 1.  **David Nathan Sampul** - 2310631170157
 2.  **Andika Hartanta** - 2310631170067
