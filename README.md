@@ -10,10 +10,9 @@ Aplikasi ini membedakan hak akses antara **Admin** (pemilik toko) dan **User** (
 
 Berikut adalah kontributor yang menyusun proyek ini:
 
-1.  **[Tulis Nama Anggota 1 Disini]** - [NIM/Absen]
-2.  **[Tulis Nama Anggota 2 Disini]** - [NIM/Absen]
-3.  **[Tulis Nama Anggota 3 Disini]** - [NIM/Absen]
-4.  **[Tulis Nama Anggota 4 Disini]** - [NIM/Absen]
+1.  **David Nathan Sampul** - 2310631170157
+2.  **Andika Hartanta** - 2310631170067
+3.  **Rizky Baruna** - 2310631170115
 
 ---
 
